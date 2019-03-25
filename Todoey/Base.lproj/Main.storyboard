@@ -33,7 +33,14 @@
                             <outlet property="delegate" destination="2xb-em-2DI" id="whc-gX-VEf"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Checklist" id="7jB-h5-nlv"/>
+                    <navigationItem key="navigationItem" title="Checklist" id="7jB-h5-nlv">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="SfB-Wn-iaY">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="addNewItem:" destination="2xb-em-2DI" id="tg6-Vv-jTq"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EfL-p2-yzT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
