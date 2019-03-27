@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D08A720224BA6E100EE16AC /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D08A71F224BA6E100EE16AC /* CategoriesViewController.swift */; };
 		8D1C895D2248C27000F4464E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1C895C2248C27000F4464E /* AppDelegate.swift */; };
 		8D1C895F2248C27000F4464E /* TodoeyListViewControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1C895E2248C27000F4464E /* TodoeyListViewControler.swift */; };
 		8D1C89622248C27000F4464E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D1C89602248C27000F4464E /* Main.storyboard */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8D08A71F224BA6E100EE16AC /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
 		8D1C89592248C27000F4464E /* Todoey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Todoey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D1C895C2248C27000F4464E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8D1C895E2248C27000F4464E /* TodoeyListViewControler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoeyListViewControler.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 		8D1C89712248F65800F4464E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				8D08A71F224BA6E100EE16AC /* CategoriesViewController.swift */,
 				8D1C895E2248C27000F4464E /* TodoeyListViewControler.swift */,
 			);
 			path = Controllers;
@@ -172,6 +175,7 @@
 			files = (
 				8D1C895F2248C27000F4464E /* TodoeyListViewControler.swift in Sources */,
 				8DC90D42224A30B000567C45 /* DataModel.xcdatamodeld in Sources */,
+				8D08A720224BA6E100EE16AC /* CategoriesViewController.swift in Sources */,
 				8D1C895D2248C27000F4464E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
