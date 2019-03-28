@@ -8,19 +8,20 @@
 
 import UIKit
 import RealmSwift
+import ChameleonFramework
 
-class CategoriesViewController: UITableViewController {
+class CategoriesViewController: SwipeTableViewController {
     
     let realm = try! Realm()
-    
     var categories: Results<Category>?
     
-    let context = (UIApplication.shared.delegate as! AppDelegate)
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         loadCategories()
+        
+        tableView.rowHeight = 80.0
         
     }
 
@@ -34,9 +35,11 @@ class CategoriesViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         
         cell.textLabel?.text = categories?[indexPath.row].name ?? "No categories"
+        
+        cell.backgroundColor = UIColor(hexString: (categories?[indexPath.row].color)!)
         
         return cell
         
@@ -73,6 +76,7 @@ class CategoriesViewController: UITableViewController {
             let newCategory = Category()
             
             newCategory.name = textField.text!
+            newCategory.color = UIColor.randomFlat.hexValue()
             
             self.saveCategory(category: newCategory)
             
@@ -108,6 +112,19 @@ class CategoriesViewController: UITableViewController {
         }
         
         tableView.reloadData()
+    }
+    
+    override func updateModel(at indexPath: IndexPath) {
+        if let categoryToBeDeleted = self.categories?[indexPath.row] {
+            do {
+                try self.realm.write {
+                self.realm.delete(categoryToBeDeleted)
+                }
+            } catch {
+                print("Error saving done, \(error)")
+            }
+        }
+        
     }
 
     

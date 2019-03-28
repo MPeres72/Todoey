@@ -8,8 +8,9 @@
 
 import UIKit
 import RealmSwift
+import ChameleonFramework
 
-class TodoeyListViewController: UITableViewController {
+class TodoeyListViewController: SwipeTableViewController {
     
     var toDoItems: Results<Item>?
     let realm = try! Realm()
@@ -25,22 +26,35 @@ class TodoeyListViewController: UITableViewController {
         super.viewDidLoad()
         
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+                
+        loadItems()
+        
+        tableView.rowHeight = 80.0
         
     }
     
     //MARK: - Tableview Datasources Methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return toDoItems?.count ?? 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
+        let categoryColor = UIColor(hexString: self.selectedCategory!.color)
         
         if let item = toDoItems?[indexPath.row] {
             
             cell.textLabel?.text = item.title
+            
+            if let color = categoryColor?.darken(byPercentage: CGFloat(indexPath.row)/CGFloat(toDoItems!.count)) {
+            
+                cell.backgroundColor = color
+                cell.textLabel?.textColor = ContrastColorOf(color, returnFlat: true)
+                
+            }
             
             cell.accessoryType = item.done ? .checkmark : .none
             
@@ -118,6 +132,18 @@ class TodoeyListViewController: UITableViewController {
         
         tableView.reloadData()
 
+    }
+    
+    override func updateModel(at indexPath: IndexPath) {
+        if let itemToBeDeleted = self.toDoItems?[indexPath.row] {
+            do {
+                try self.realm.write {
+                    self.realm.delete(itemToBeDeleted)
+                }
+            } catch {
+                print("Error saving done, \(error)")
+            }
+        }
     }
     
 }
