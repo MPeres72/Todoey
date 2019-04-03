@@ -25,11 +25,42 @@ class TodoeyListViewController: SwipeTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-                
         loadItems()
         
         tableView.rowHeight = 80.0
+        
+    }
+    
+    @IBOutlet weak var searchItems: UISearchBar!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        title = selectedCategory!.name
+
+        if let colorHex = selectedCategory?.color {
+            
+            updateNavBar(withHexCode: colorHex)
+            
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        updateNavBar(withHexCode: "1D9BF6")
+        
+    }
+    
+    //MARK: = Navigation Bar Setup Methods
+    
+    func updateNavBar (withHexCode colorCode: String) {
+        
+        guard let navBar = navigationController?.navigationBar else {fatalError("Navigation controler does not exist")}
+        
+        guard let navBarColor = UIColor(hexString: colorCode) else {fatalError()}
+        navBar.barTintColor = navBarColor
+        navBar.tintColor = ContrastColorOf(navBarColor, returnFlat: true)
+        navBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : ContrastColorOf(navBarColor, returnFlat: true)]
+        searchItems.barTintColor = navBarColor
         
     }
     
@@ -39,6 +70,7 @@ class TodoeyListViewController: SwipeTableViewController {
         
         return toDoItems?.count ?? 1
     }
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -92,7 +124,7 @@ class TodoeyListViewController: SwipeTableViewController {
         
         let alert = UIAlertController(title: "Add a new item", message: "", preferredStyle: .alert)
         
-        let action = UIAlertAction(title: "Add item", style: .default) { (action) in
+        let addAction = UIAlertAction(title: "Add item", style: .default) { (action) in
             //Append new items in the array
             
             if let currentCategory = self.selectedCategory {
@@ -113,12 +145,15 @@ class TodoeyListViewController: SwipeTableViewController {
 
         }
         
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
         alert.addTextField { (alertTextField) in
             alertTextField.placeholder = "Create a new item"
             textField = alertTextField
         }
         
-        alert.addAction(action)
+        alert.addAction(addAction)
+        alert.addAction(cancelAction)
         
         present(alert, animated: true, completion: nil)
         

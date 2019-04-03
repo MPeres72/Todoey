@@ -39,7 +39,10 @@ class CategoriesViewController: SwipeTableViewController {
         
         cell.textLabel?.text = categories?[indexPath.row].name ?? "No categories"
         
-        cell.backgroundColor = UIColor(hexString: (categories?[indexPath.row].color)!)
+        guard let categoryTextColor = UIColor(hexString: (categories?[indexPath.row].color)!) else {fatalError()}
+        cell.backgroundColor = categoryTextColor
+        cell.textLabel?.textColor = ContrastColorOf(categoryTextColor, returnFlat: true)
+
         
         return cell
         
@@ -50,6 +53,7 @@ class CategoriesViewController: SwipeTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         performSegue(withIdentifier: "goToItems", sender: self)
+        
         
     }
     
@@ -71,7 +75,7 @@ class CategoriesViewController: SwipeTableViewController {
         
         let alert = UIAlertController(title: "Add a category", message: "", preferredStyle: .alert)
         
-        let action = UIAlertAction(title: "Add category", style: .default) { (action) in
+        let addAction = UIAlertAction(title: "Add category", style: .default) { (action) in
             
             let newCategory = Category()
             
@@ -82,12 +86,17 @@ class CategoriesViewController: SwipeTableViewController {
             
         }
         
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) {(action) in
+            
+        }
+        
         alert.addTextField { (alertTextField) in
             alertTextField.placeholder = "Create a new category"
             textField = alertTextField
         }
         
-        alert.addAction(action)
+        alert.addAction(addAction)
+        alert.addAction(cancelAction)
         
         present(alert, animated: true, completion: nil)
         
